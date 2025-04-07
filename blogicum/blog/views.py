@@ -46,12 +46,14 @@ posts = [
 ]
 
 
+
+posts_dict = {post['id']: post for post in posts}
+
 def index(request):
     return render(request, 'blog/index.html', {'posts': reversed(posts)})
 
-
-def post_detail(request, id):
-    post = next((post for post in posts if post['id'] == id), None)
+def post_detail(request, post_id):
+    post = posts_dict.get(post_id)
     if post is None:
         raise Http404('Post not found')
     return render(request, 'blog/detail.html', {'post': post})
